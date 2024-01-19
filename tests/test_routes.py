@@ -2,7 +2,7 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from your_app.models import Product  # Replace 'your_app' with your actual app name
+from final-project.models import Product  # Replace 'your_app' with your actual app name
 from django.contrib.auth.models import User  # If authentication is used
 from rest_framework.authtoken.models import Token
 

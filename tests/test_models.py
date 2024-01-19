@@ -1,6 +1,6 @@
 # tests/test_models.py
 from django.test import TestCase
-from your_app.models import Product  # Replace 'your_app' with your actual app name
+from final-project.models import Product  # Replace 'your_app' with your actual app name
 
 class ProductModelTestCase(TestCase):
     def setUp(self):
