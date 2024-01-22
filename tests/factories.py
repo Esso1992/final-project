@@ -1,27 +1,61 @@
+# Copyright 2016, 2022 John J. Rofrano. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# pylint: disable=too-few-public-methods
+
+"""
+Test Factory to make fake objects for testing
+"""
 import factory
+from factory.fuzzy import FuzzyChoice, FuzzyDecimal
+from service.models import Product, Category
 
-# Import your model class for Product
-from .models import Product  # Replace with the correct import path
-
-# If using Faker, import it as well
-from faker import Faker
 
 class ProductFactory(factory.Factory):
+    """Creates fake products for testing"""
 
     class Meta:
-        model = Product  # Specify the model to create instances of
+        """Maps factory to data model"""
 
-    # Define fields and their default values using Faker or hardcoded values:
-    name = factory.Faker('name')  # Example using Faker
-    price = factory.Faker('pydecimal', left_digits=2, right_digits=2)
-    description = factory.Faker('paragraph')
-    category = factory.Faker('word')
-    availability = factory.Faker('boolean')
+        model = Product
 
-    # Optionally, define strategies for certain fields:
-    @factory.post_generation
-    def set_images(self, create, extracted, **kwargs):
-        if create:
-            # Add logic to create and assign images to the product
-            pass
-
+    id = factory.Sequence(lambda n: n)
+    name = FuzzyChoice(
+        choices=[
+            "Hat",
+            "Pants",
+            "Shirt",
+            "Apple",
+            "Banana",
+            "Pots",
+            "Towels",
+            "Ford",
+            "Chevy",
+            "Hammer",
+            "Wrench"
+        ]
+    )
+    description = factory.Faker("text")
+    price = FuzzyDecimal(0.5, 2000.0, 2)
+    available = FuzzyChoice(choices=[True, False])
+    category = FuzzyChoice(
+        choices=[
+            Category.UNKNOWN,
+            Category.CLOTHS,
+            Category.FOOD,
+            Category.HOUSEWARES,
+            Category.AUTOMOTIVE,
+            Category.TOOLS,
+        ]
+    )
